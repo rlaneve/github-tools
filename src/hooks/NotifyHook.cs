@@ -35,21 +35,30 @@ namespace GithubTools.Hooks
 				var template = File.ReadAllText(Path.Combine(rootPath, @"Views", @"Notify.cshtml"));
 				var body = Razor.Parse(template, pushData);
 
-				if (!skipEmail)
+				if (skipEmail)
+					return body;
+
+				var from = ConfigurationManager.AppSettings["EmailsFrom"];
+				var fromName = ConfigurationManager.AppSettings["EmailsFromName"];
+
+				var mailMessage = new MailMessage
 				{
-					var mailMessage = new MailMessage
-					{
-						From = new MailAddress("github@avispl.com", "GitHub (AVI-SPL)"),
-						Subject = subject,
-						Body = body,
-						IsBodyHtml = true
-					};
-					mailMessage.ReplyToList.Add("applicationsdevelopment@avispl.com");
-					mailMessage.Headers.Add("gh-repo", pushData.Repository.Name);
-					mailMessage.To.Add(ConfigurationManager.AppSettings["EmailsTo"]);
-					new SmtpClient().Send(mailMessage);
-				}
-				return body;
+					From = new MailAddress(from, (string.IsNullOrEmpty(fromName) ? from : fromName)),
+					Subject = subject,
+					Body = body,
+					IsBodyHtml = true
+				};
+
+				var replyTo = ConfigurationManager.AppSettings["EmailsReplyTo"];
+				var replyToName = ConfigurationManager.AppSettings["EmailsReplyToName"];
+				if (!string.IsNullOrEmpty(replyTo))
+					mailMessage.ReplyToList.Add(new MailAddress(replyTo, (string.IsNullOrEmpty(replyToName) ? replyTo : replyToName)));
+					
+				mailMessage.Headers.Add("gh-repo", pushData.Repository.Name);
+				mailMessage.To.Add(ConfigurationManager.AppSettings["EmailsTo"]);
+				new SmtpClient().Send(mailMessage);
+
+				return "email sent";
 			};
 		}
 	}
