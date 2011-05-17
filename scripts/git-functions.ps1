@@ -49,3 +49,7 @@ function set-gitbranchdelete {
 }
 Set-Alias -Name gbdelete -Value set-gitbranchdelete
 
+function set-gitundo {
+	git reset --soft HEAD^
+}
+Set-Alias -Name gundo -Value set-gitundo
