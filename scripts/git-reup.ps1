@@ -26,11 +26,11 @@ function git-reup {
 	
 	if ($updated) {
 	    write "Diffstat:"
-		$args = @("--no-pager", "diff", "--color", "--stat", "$old_head..")
+		$args = @("--no-pager", "diff", "--color", "--stat", ($old_head + '..'))
 		(& git $args)
 		
 		write "Log:"
-		$args = @("log", "--color", "--pretty=oneline", "--abbrev-commit", "$old_head..")
+		$args = @("log", "--color", "--pretty=oneline", "--abbrev-commit", ($old_head + '..'))
 		(& git $args)
 	}
 }
