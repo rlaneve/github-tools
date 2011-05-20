@@ -9,14 +9,14 @@
 # and then Zach Holman
 # https://github.com/holman/dotfiles/blob/master/bin/git-up
 function git-reup {
-	$old_head = (& git rev-parse HEAD 2>&1 | Out-String)
+	$old_head = (& git rev-parse HEAD 2>&1 | Out-String).Substring(0, 7)
 
 	$msg = (& git stash save "Auto-stash by greup script" 2>&1 | Out-String)
 	
 	$stashed = $msg -icontains "No local changes to save"
 	
 	git pull --rebase
-	$new_head = (& git rev-parse HEAD 2>&1 | Out-String)
+	$new_head = (& git rev-parse HEAD 2>&1 | Out-String).Substring(0, 7)
 	
 	$updated = $old_head -ine $new_head
 	
