@@ -58,3 +58,19 @@ function git-checkout {
 	git checkout $args
 }
 Set-Alias -Name gco -Value git-checkout
+
+function git-commit-all {
+	git add -A
+	git commit $args
+}
+Set-Alias -Name gca -Value git-commit-all
+
+function git-commit-all-with-msg {
+	if ($args.length -eq 0) {
+		write "You must specify a commit message!"
+		return
+	}
+	git add -A
+	git commit -m $args[0]
+}
+Set-Alias -Name gcam -Value git-commit-all-with-msg
