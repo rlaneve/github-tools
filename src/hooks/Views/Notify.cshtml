@@ -13,11 +13,7 @@
 @foreach(var commit in Model.Commits) {
 	<a href="@commit.Url">@commit.Id.Substring(0, 7)</a> <span class="small">@commit.Author.Name, @commit.Timestamp.ToShortDateString() @commit.Timestamp.ToShortTimeString()</span><br />
 	@commit.Message.Replace("\n", "<br/>")
-	<ul>
-	@foreach (var file in commit.Files) {
-		<li>@file.Action.Substring(0, 1)  @file.File</li>
-	}
-	</ul>
+	<br />
 	<br />
 }
 <br />
