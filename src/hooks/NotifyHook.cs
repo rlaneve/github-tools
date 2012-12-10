@@ -20,7 +20,10 @@ namespace GithubTools.Hooks
 				bool skipEmail;
 				bool.TryParse(Request.Query["skipEmail"], out skipEmail);
 
-				PushData pushData = JsonConvert.DeserializeObject<PushData>(Request.Form["payload"]);
+				var stream = new StreamReader(Request.Body);
+				var request = stream.ReadToEnd();
+				stream.Close();
+				var pushData = JsonConvert.DeserializeObject<PushData>(request);
 
 				var oldestCommit = pushData.Commits.OrderBy(c => c.Timestamp).First();
 				var oldestCommitMsgFirstLine = oldestCommit.Message.Split('\n')[0];
