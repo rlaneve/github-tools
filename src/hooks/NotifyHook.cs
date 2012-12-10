@@ -28,8 +28,7 @@ namespace GithubTools.Hooks
 				var oldestCommit = pushData.Commits.OrderBy(c => c.Timestamp).First();
 				var oldestCommitMsgFirstLine = oldestCommit.Message.Split('\n')[0];
 
-				var subject = string.Format("[{0}/{1}, {2}] ({3}) {4}",
-					pushData.Repository.Owner.Name,
+				var subject = string.Format("[{0}, {1}] ({2}) {3}",
 					pushData.Repository.Name,
 					pushData.Branch,
 					oldestCommit.Author.Username,
@@ -87,7 +86,7 @@ namespace GithubTools.Hooks
 	{
 		public string Name { get; set; }
 		public string Url { get; set; }
-		public UserData Owner { get; set; }
+		//public UserData Owner { get; set; }
 	}
 
 	public class CommitData
