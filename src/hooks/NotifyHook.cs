@@ -31,7 +31,7 @@ namespace GithubTools.Hooks
 				var subject = string.Format("[{0}, {1}] ({2}) {3}",
 					pushData.Repository.Name,
 					pushData.Branch,
-					oldestCommit.Author.Username,
+					oldestCommit.Author.Name,
 					oldestCommitMsgFirstLine);
 
 				var template = File.ReadAllText(Path.Combine(rootPath, @"Views", @"Notify.cshtml"));
