@@ -1,21 +1,27 @@
 ﻿<html>
 <head>
 	<style type="text/css">
-		html { font-family: consolas, tahoma, helvetica; font-size: 16px; }
-		.small { font-size: 14px; }
-		.smaller { font-size: 12px; }
+		html { font-family: arial, tahoma, helvetica; font-size: 12px;font-weight: normal;padding: 10px;}
+		.header { font-size: 20px;margin-bottom: 23px;color: #888;}
+		.item { margin: 0 0 9px 0;}
+		.item_header {font-size: 15px; line-height: 1.4em; font-style: italic;color: #111; max-width: 700px;display: inline-block;}
+		.item_subheader { font-size: 11px;font-weight: bold; display: block;color: #555;margin-top: 4px;}
+		.footer { font-size: 11px;display: block;margin-top: 13px;}
 		ul li { list-style: none; }
+		a { color: blue; }
 	</style>
 </head>
-<body>
-<a href="@Model.Repository.Url/commits/@Model.Branch">@Model.Repository.Url/commits/@Model.Branch</a><br />
-<br />
-@foreach(var commit in Model.Commits) {
-	<a href="@commit.Url">@commit.Id.Substring(0, 7)</a> <span class="small">@commit.Author.Name, @commit.Timestamp.ToShortDateString() @commit.Timestamp.ToShortTimeString()</span><br />
-	@commit.Message.Replace("\n", "<br/>")
-	<br />
-	<br />
-}
-<br />
-</body>
+	<body>
+		<div class="header">@Model.Commits.Count commit@(Model.Commits.Count > 1 ? "s" : "") pushed to "@Model.Branch"</div>
+		@foreach(var commit in Model.Commits) {
+			<div class="item">
+				<span class="item_header"><a href="@commit.Url" title="@commit.Id">@commit.Id.Substring(0, 7)</a> @commit.Message.Replace("\r\n", "<br/>").Replace("\n", "<br/>")</span>
+				<div class="item_subheader">
+					- @commit.Author.Name, @commit.Timestamp.ToLongDateString() @commit.Timestamp.ToShortTimeString()
+				</div><br/>
+			</div>
+		}
+		
+		<a href="@Model.Repository.Url/commits/@Model.Branch" class="footer">View all commits on this branch...</a>
+	</body>
 </html>
