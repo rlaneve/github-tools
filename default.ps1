@@ -44,5 +44,7 @@ task copy-output {
     Copy-Item .\src\hooks\bin $outDir\hooks -recurse
     Copy-Item .\src\hooks\Views $outDir\hooks -recurse
 
-    TeamCity-PublishArtifact $outDir
+    $zipFile = "$outDir\output.zip"
+    Invoke-Expression -Command "$rootDir\tools\7zip\7z.exe a $zipFile $outDir\*"
+    TeamCity-PublishArtifact $zipFile
 }
