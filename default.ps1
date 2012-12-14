@@ -1,5 +1,5 @@
 Properties {
-    $rootDir = Split-Path $psake.build_script_file    
+    $rootDir = ".\"
     $slnPath = "$rootDir\src\github-tools.sln"
     $outDir = "$rootDir\build\"
 }
