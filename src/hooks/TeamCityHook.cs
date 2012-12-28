@@ -20,9 +20,7 @@ namespace GithubTools.Hooks
 				stream.Close();
 				var pushData = JsonConvert.DeserializeObject<PushData>(request);
 
-				var url = string.Join(":", pushData.Repository.Url.Replace("http://", "").Split('/'));
-				url = "git@" + url + ".git";
-				var buildTypeId = getBuildTypeId(url, pushData.Branch);
+				var buildTypeId = getBuildTypeId(pushData.Repository.Url, pushData.Branch);
 				//Note: Gitlab does not include any "pusher" info
 				//var user = pushData.Pusher ?? pushData.Commits.OrderBy(c => c.Timestamp).First().Author;
 				var user = pushData.Commits.OrderBy(c => c.Timestamp).First().Author;
