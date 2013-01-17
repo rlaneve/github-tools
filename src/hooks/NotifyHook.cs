@@ -100,21 +100,21 @@ namespace GithubTools.Hooks
 		public List<string> Added { get; set; }
 		public List<string> Removed { get; set; }
 
-		//private List<FileData> _files;
-		//public List<FileData> Files
-		//{
-		//    get
-		//    {
-		//        if (_files == null)
-		//        {
-		//            var files = Modified.Select(f => new FileData { Action = "Modified", File = f });
-		//            files = files.Union(Added.Select(f => new FileData { Action = "Added", File = f }));
-		//            files = files.Union(Removed.Select(f => new FileData { Action = "Deleted", File = f }));
-		//            _files = files.OrderBy(fd => fd.File).ToList();
-		//        }
-		//        return _files;
-		//    }
-		//}
+		private List<FileData> _files;
+		public List<FileData> Files
+		{
+			get
+			{
+				if (_files == null)
+				{
+					var files = Modified.Select(f => new FileData { Action = "Modified", File = f });
+					files = files.Union(Added.Select(f => new FileData { Action = "Added", File = f }));
+					files = files.Union(Removed.Select(f => new FileData { Action = "Deleted", File = f }));
+					_files = files.OrderBy(fd => fd.File).ToList();
+				}
+				return _files;
+			}
+		}
 	}
 
 	public class FileData
